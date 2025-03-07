@@ -15,7 +15,7 @@ import java.util.List;
 public class EmployeeController {
 
     @Autowired
-    private EmployeeService service;
+    EmployeeService service;
 
     @GetMapping("/all")//http://localhost:8080/employeepayrollservice/all
     public List<Employee> getAllEmployees() {
