@@ -1,5 +1,6 @@
 package com.example.employeepayrollapp.controller;
 
+import com.example.employeepayrollapp.dto.EmployeeDTO;
 import com.example.employeepayrollapp.model.Employee;
 import com.example.employeepayrollapp.service.EmployeeService;
 import jakarta.validation.Valid;
@@ -28,13 +29,13 @@ public class EmployeeController {
     }
 
     @PostMapping("/create")//http://localhost:8080/employeepayrollservice/create
-    public Employee createEmployee(@Valid @RequestBody Employee employee) {
-        return service.createEmployee(employee);
+    public Employee createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
+        return service.createEmployee(employeeDTO);
     }
 
     @PutMapping("/update/{id}")//http://localhost:8080/employeepayrollservice/update/1
-    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @Valid @RequestBody Employee employee) {
-        Employee updatedEmployee = service.updateEmployee(id, employee);
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @Valid @RequestBody EmployeeDTO employeeDTO) {
+        Employee updatedEmployee = service.updateEmployee(id, employeeDTO);
         return updatedEmployee != null ? ResponseEntity.ok(updatedEmployee) : ResponseEntity.notFound().build();
     }
 
