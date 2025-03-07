@@ -34,3 +34,9 @@
 2025-03-07T13:58:30.567+05:30  INFO 10928 --- [EmployeePayrollApp] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
 2025-03-07T13:58:30.583+05:30  INFO 10928 --- [EmployeePayrollApp] [restartedMain] c.e.e.EmployeePayrollAppApplication      : Started EmployeePayrollAppApplication in 9.087 seconds (process running for 10.179)
 2025-03-07T13:58:30.589+05:30  INFO 10928 --- [EmployeePayrollApp] [restartedMain] c.e.e.EmployeePayrollAppApplication      : Employee Payroll App Started
+2025-03-07T14:29:59.462+05:30  INFO 6748 --- [EmployeePayrollApp] [restartedMain] c.e.e.EmployeePayrollAppApplication      : Starting EmployeePayrollAppApplication using Java 23.0.2 with PID 6748 (D:\SpringBoot\employeepayrollapp\target\classes started by root in D:\SpringBoot\employeepayrollapp)
+2025-03-07T14:29:59.472+05:30 DEBUG 6748 --- [EmployeePayrollApp] [restartedMain] c.e.e.EmployeePayrollAppApplication      : Running with Spring Boot v3.4.3, Spring v6.2.3
+2025-03-07T14:29:59.474+05:30  INFO 6748 --- [EmployeePayrollApp] [restartedMain] c.e.e.EmployeePayrollAppApplication      : The following 1 profile is active: "dev"
+2025-03-07T14:30:06.849+05:30  WARN 6748 --- [EmployeePayrollApp] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-03-07T14:30:07.632+05:30  INFO 6748 --- [EmployeePayrollApp] [restartedMain] c.e.e.EmployeePayrollAppApplication      : Started EmployeePayrollAppApplication in 9.216 seconds (process running for 10.295)
+2025-03-07T14:30:07.638+05:30  INFO 6748 --- [EmployeePayrollApp] [restartedMain] c.e.e.EmployeePayrollAppApplication      : Employee Payroll App Started in dev environment
