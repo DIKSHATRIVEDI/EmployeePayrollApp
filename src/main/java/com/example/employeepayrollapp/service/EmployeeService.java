@@ -7,6 +7,9 @@ import com.example.employeepayrollapp.repository.EmployeeRepository;
 import com.example.employeepayrollapp.util.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +30,8 @@ public class EmployeeService implements IEmployeeService {
         }
     }
 
+    @Override
+    @Cacheable(value = "employeePayrollCache") // Cache results
     public List<Employee> getAllEmployees(String token) {
         Long userId = tokenUtil.getCurrentUserId(token);
         checkAuthentication(userId, token);
@@ -38,6 +43,8 @@ public class EmployeeService implements IEmployeeService {
         }
     }
 
+    @Override
+    @Cacheable(value = "employeePayrollCache", key = "#id") // Cache specific entry by ID
     public Employee getEmployeeById(Long id, String token) {
         Long userId = tokenUtil.getCurrentUserId(token);
         checkAuthentication(userId, token);
@@ -54,6 +61,8 @@ public class EmployeeService implements IEmployeeService {
         }
     }
 
+    @Override
+    @CacheEvict(value = "employeePayrollCache", allEntries = true) // Clear cache on new entry
     public Employee createEmployee(EmployeeDTO employeeDTO, String token) {
         Long userId = tokenUtil.getCurrentUserId(token);
         checkAuthentication(userId, token);
@@ -68,6 +77,11 @@ public class EmployeeService implements IEmployeeService {
         }
     }
 
+    @Override
+    @Caching(evict = {
+            @CacheEvict(value = "employeePayrollCache", allEntries = true),
+            @CacheEvict(value = "employeePayrollCache", key = "#id")
+    })
     public Employee updateEmployee(Long id, EmployeeDTO employeeDTO, String token) {
         Long userId = tokenUtil.getCurrentUserId(token);
         checkAuthentication(userId, token);
@@ -87,6 +101,8 @@ public class EmployeeService implements IEmployeeService {
         }
     }
 
+    @Override
+    @CacheEvict(value = "employeePayrollCache", key = "#id") // Remove from cache on delete
     public void deleteEmployee(Long id, String token) {
         Long userId = tokenUtil.getCurrentUserId(token);
         checkAuthentication(userId, token);
