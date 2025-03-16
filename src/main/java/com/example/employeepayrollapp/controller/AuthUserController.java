@@ -1,6 +1,7 @@
 package com.example.employeepayrollapp.controller;
 
 import com.example.employeepayrollapp.dto.AuthUserDTO;
+import com.example.employeepayrollapp.dto.LoginDTO;
 import com.example.employeepayrollapp.dto.ResponseDTO;
 import com.example.employeepayrollapp.model.AuthUser;
 import com.example.employeepayrollapp.service.AuthenticationService;
@@ -22,6 +23,13 @@ public class AuthUserController {
         AuthUser user=authenticationService.register(userDTO);
         ResponseDTO responseUserDTO =new ResponseDTO("User details is submitted!",user);
         return new ResponseEntity<>(responseUserDTO, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ResponseDTO> login(@Valid @RequestBody LoginDTO loginDTO){
+        String result=authenticationService.login(loginDTO);
+        ResponseDTO responseUserDTO=new ResponseDTO("Login successfully!!",result);
+        return  new ResponseEntity<>(responseUserDTO,HttpStatus.OK);
     }
 
 }

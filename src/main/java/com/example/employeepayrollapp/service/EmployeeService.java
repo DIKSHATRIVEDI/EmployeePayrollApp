@@ -4,6 +4,7 @@ import com.example.employeepayrollapp.Interface.IEmployeeService;
 import com.example.employeepayrollapp.dto.EmployeeDTO;
 import com.example.employeepayrollapp.model.Employee;
 import com.example.employeepayrollapp.repository.EmployeeRepository;
+import com.example.employeepayrollapp.util.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,19 @@ public class EmployeeService implements IEmployeeService {
     @Autowired
     EmployeeRepository repository;
 
-    public List<Employee> getAllEmployees() {
+    @Autowired
+    private JwtToken tokenUtil;
+
+    // Method to check authentication
+    private void checkAuthentication(Long userId, String token) {
+        if (userId == null || !tokenUtil.isUserLoggedIn(userId, token)) {
+            throw new RuntimeException("Unauthorized! Please log in first.");
+        }
+    }
+
+    public List<Employee> getAllEmployees(String token) {
+        Long userId = tokenUtil.getCurrentUserId(token);
+        checkAuthentication(userId, token);
         try {
             return repository.findAll();
         } catch (Exception e) {
@@ -25,14 +38,15 @@ public class EmployeeService implements IEmployeeService {
         }
     }
 
-    public Employee getEmployeeById(Long id) {
+    public Employee getEmployeeById(Long id, String token) {
+        Long userId = tokenUtil.getCurrentUserId(token);
+        checkAuthentication(userId, token);
         try {
             Optional<Employee> employee = repository.findById(id);
             if (employee.isPresent()) {
                 return employee.get();
             } else {
-                System.out.println("Employee with ID " + id + " not found.");
-                return null;
+                throw new RuntimeException("Employee with ID " + id + " not found.");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,7 +54,9 @@ public class EmployeeService implements IEmployeeService {
         }
     }
 
-    public Employee createEmployee(EmployeeDTO employeeDTO) {
+    public Employee createEmployee(EmployeeDTO employeeDTO, String token) {
+        Long userId = tokenUtil.getCurrentUserId(token);
+        checkAuthentication(userId, token);
         try {
             Employee employee = new Employee();
             employee.setName(employeeDTO.getName());
@@ -52,7 +68,9 @@ public class EmployeeService implements IEmployeeService {
         }
     }
 
-    public Employee updateEmployee(Long id, EmployeeDTO employeeDTO) {
+    public Employee updateEmployee(Long id, EmployeeDTO employeeDTO, String token) {
+        Long userId = tokenUtil.getCurrentUserId(token);
+        checkAuthentication(userId, token);
         try {
             Optional<Employee> employeeOpt = repository.findById(id);
             if (employeeOpt.isPresent()) {
@@ -61,8 +79,7 @@ public class EmployeeService implements IEmployeeService {
                 employee.setSalary(employeeDTO.getSalary());
                 return repository.save(employee);
             } else {
-                System.out.println("Employee with ID " + id + " not found.");
-                return null;
+                throw new RuntimeException("Employee with ID " + id + " not found.");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,12 +87,14 @@ public class EmployeeService implements IEmployeeService {
         }
     }
 
-    public void deleteEmployee(Long id) {
+    public void deleteEmployee(Long id, String token) {
+        Long userId = tokenUtil.getCurrentUserId(token);
+        checkAuthentication(userId, token);
         try {
             if (repository.existsById(id)) {
                 repository.deleteById(id);
             } else {
-                System.out.println("Employee with ID " + id + " not found.");
+                throw new RuntimeException("Employee with ID " + id + " not found.");
             }
         } catch (Exception e) {
             e.printStackTrace();

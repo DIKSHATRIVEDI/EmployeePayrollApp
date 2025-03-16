@@ -17,32 +17,36 @@ public class EmployeeController {
     @Autowired
     EmployeeService service;
 
-    @GetMapping("/all")//http://localhost:8080/employeepayrollservice/all
-    public List<Employee> getAllEmployees() {
-        return service.getAllEmployees();
+    // Get all employees
+    @GetMapping("/all") // http://localhost:8080/employeepayrollservice/all?token=<token>
+    public List<Employee> getAllEmployees(@RequestParam String token) {
+        return service.getAllEmployees(token);
     }
 
-    @GetMapping("/get/{id}")//http://localhost:8080/employeepayrollservice/get/1
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id) {
-        Employee employee = service.getEmployeeById(id);
+    // Get employee by ID
+    @GetMapping("/get/{id}") // http://localhost:8080/employeepayrollservice/get/1?token=<token>
+    public ResponseEntity<Employee> getEmployeeById(@PathVariable Long id, @RequestParam String token) {
+        Employee employee = service.getEmployeeById(id, token);
         return employee != null ? ResponseEntity.ok(employee) : ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/create")//http://localhost:8080/employeepayrollservice/create
-    public Employee createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
-        return service.createEmployee(employeeDTO);
+    // Create employee
+    @PostMapping("/create") // http://localhost:8080/employeepayrollservice/create?token=<token>
+    public Employee createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO, @RequestParam String token) {
+        return service.createEmployee(employeeDTO, token);
     }
 
-    @PutMapping("/update/{id}")//http://localhost:8080/employeepayrollservice/update/1
-    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @Valid @RequestBody EmployeeDTO employeeDTO) {
-        Employee updatedEmployee = service.updateEmployee(id, employeeDTO);
+    // Update employee
+    @PutMapping("/update/{id}") // http://localhost:8080/employeepayrollservice/update/1?token=<token>
+    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @Valid @RequestBody EmployeeDTO employeeDTO, @RequestParam String token) {
+        Employee updatedEmployee = service.updateEmployee(id, employeeDTO, token);
         return updatedEmployee != null ? ResponseEntity.ok(updatedEmployee) : ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/delete/{id}")//http://localhost:8080/employeepayrollservice/delete/1
-    public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
-        service.deleteEmployee(id);
+    // Delete employee
+    @DeleteMapping("/delete/{id}") // http://localhost:8080/employeepayrollservice/delete/1?token=<token>
+    public ResponseEntity<Void> deleteEmployee(@PathVariable Long id, @RequestParam String token) {
+        service.deleteEmployee(id, token);
         return ResponseEntity.noContent().build();
     }
 }
-

@@ -6,9 +6,9 @@ import com.example.employeepayrollapp.model.Employee;
 import java.util.List;
 
 public interface IEmployeeService {
-    List<Employee> getAllEmployees();
-    Employee getEmployeeById(Long id);
-    Employee createEmployee(EmployeeDTO employeeDTO);
-    Employee updateEmployee(Long id, EmployeeDTO employeeDTO);
-    void deleteEmployee(Long id);
+    List<Employee> getAllEmployees(String token);
+    Employee getEmployeeById(Long id, String token);
+    Employee createEmployee(EmployeeDTO employeeDTO, String token);
+    Employee updateEmployee(Long id, EmployeeDTO employeeDTO, String token);
+    void deleteEmployee(Long id, String token);
 }
